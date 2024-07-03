@@ -1,42 +1,47 @@
 <template>
   <div class="wrap">
-    <div v-if="showTitle" class="title">吃啥</div>
+    <div v-if="isShowTitle" class="title">吃啥</div>
     <ul class="list">
       <li
-        v-for="(food, index) in allFood"
+        v-for="(food, index) in foodList"
         :key="index"
         class="item"
-        :class="{ playing: playing }"
+        :class="{ playing: isPlaying }"
         @animationend="restart"
       >
         {{ food }}
       </li>
     </ul>
   </div>
-  <button v-if="!playing" class="btn-start" @click="start">Click Me</button>
+  <button v-if="!isPlaying" class="btn-start" @click="start">Click Me</button>
   <button v-else class="btn-start" disabled>Choosing...</button>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-const allFood = ref([]);
-const playing = ref(false);
-const showTitle = ref(true);
+const foodList = ref([]);
+const isPlaying = ref(false);
+// 只有初次載入出現
+const isShowTitle = ref(true);
 
 async function start() {
-  allFood.value = [];
-  playing.value = true;
-  showTitle.value = false;
+  foodList.value = [];
+  isPlaying.value = true;
+  isShowTitle.value = false;
   const sheetID = import.meta.env.VITE_SHEET_ID;
   const apiKey = import.meta.env.VITE_API_KEY;
-  const res = await axios.get(
-    `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/dinner-sheet?key=${apiKey}`
-  );
-  res.data.values.forEach((element) => {
-    allFood.value.push(element[0]);
-  });
-  shuffleArray(allFood.value);
+  try {
+    const res = await axios.get(
+      `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/dinner-sheet?key=${apiKey}`
+    );
+    res.data.values.forEach((element) => {
+      foodList.value.push(element[0]);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+  shuffleArray(foodList.value);
 }
 
 function shuffleArray(array) {
@@ -47,7 +52,7 @@ function shuffleArray(array) {
 }
 
 function restart() {
-  playing.value = false;
+  isPlaying.value = false;
 }
 </script>
 
@@ -89,7 +94,7 @@ function restart() {
   animation-name: random;
   animation-iteration-count: 2;
   animation-timing-function: linear;
-  animation-duration: 0.5s;
+  animation-duration: 0.3s;
 }
 
 @keyframes random {

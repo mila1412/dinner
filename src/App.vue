@@ -3,7 +3,7 @@
     <div v-if="isShowTitle" class="title">吃啥</div>
     <ul v-else class="list">
       <li
-        v-for="(food, index) in foodList"
+        v-for="(food, index) in filterList"
         :key="index"
         class="item"
         :class="{ playing: isPlaying }"
@@ -13,14 +13,20 @@
       </li>
     </ul>
   </div>
-  <button v-if="!isPlaying" class="btn-start" @click="start">Click Me</button>
-  <button v-else class="btn-start" disabled>Choosing...</button>
+  <div v-if="!isPlaying" class="btn-wrap">
+    <button v-for="(type, index) in foodType" :key="index" @click="start(index)">
+      {{ type }}
+    </button>
+  </div>
+  <div v-else class="choose">Choosing...</div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
-const foodList = ref([]);
+const allFoodList = ref([]);
+const filterList = ref([]);
+const foodType = ['台式', '日式', '韓式', '泰式', '越式', '邪惡'];
 const isPlaying = ref(false);
 // 只有初次載入出現
 const isShowTitle = ref(true);
@@ -29,22 +35,22 @@ getFoodList();
 async function getFoodList() {
   const sheetID = import.meta.env.VITE_SHEET_ID;
   const apiKey = import.meta.env.VITE_API_KEY;
+  const range = 'dinner-sheet!A2:F';
   try {
     const res = await axios.get(
-      `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/dinner-sheet?key=${apiKey}`
+      `https://sheets.googleapis.com/v4/spreadsheets/${sheetID}/values/${range}?majorDimension=COLUMNS&key=${apiKey}`
     );
-    res.data.values.forEach((element) => {
-      foodList.value.push(element[0]);
-    });
+    allFoodList.value = res.data.values;
   } catch (err) {
     console.log(err);
   }
 }
 
-function start() {
+function start(index) {
   isPlaying.value = true;
   isShowTitle.value = false;
-  shuffleArray(foodList.value);
+  filterList.value = allFoodList.value[index];
+  shuffleArray(filterList.value);
 }
 
 function restart() {
@@ -97,7 +103,7 @@ function shuffleArray(array) {
   animation-name: random;
   animation-iteration-count: 2;
   animation-timing-function: linear;
-  animation-duration: 0.3s;
+  animation-duration: 0.15s;
 }
 
 @keyframes random {
@@ -105,23 +111,49 @@ function shuffleArray(array) {
     top: 0;
   }
   to {
-    top: -200px;
+    top: -80px;
   }
 }
 
-.btn-start {
+.btn-wrap {
+  display: flex;
+  flex-wrap: wrap;
   width: 200px;
-  height: 50px;
+  button {
+    flex: 0 1 33.3%;
+    height: 50px;
+    color: rgb(83, 22, 22);
+    font-size: 16px;
+    font-weight: bold;
+    background: rgb(226, 196, 27);
+    border: 2px solid rgb(83, 22, 22);
+    border-top: none;
+    cursor: pointer;
+    &:nth-child(2),
+    &:nth-child(5) {
+      border-right: none;
+      border-left: none;
+    }
+
+    &:focus {
+      background: rgb(83, 22, 22);
+      color: #fff;
+    }
+  }
+}
+
+.choose {
+  width: 200px;
+  height: 100px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: rgb(83, 22, 22);
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   background: rgb(226, 196, 27);
   border: 2px solid rgb(83, 22, 22);
   border-top: none;
-  cursor: pointer;
-  &:focus {
-    background: rgb(83, 22, 22);
-    color: #fff;
-  }
 }
 </style>

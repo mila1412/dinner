@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
     <div v-if="isShowTitle" class="title">吃啥</div>
-    <ul class="list">
+    <ul v-else class="list">
       <li
         v-for="(food, index) in foodList"
         :key="index"
@@ -25,10 +25,8 @@ const isPlaying = ref(false);
 // 只有初次載入出現
 const isShowTitle = ref(true);
 
-async function start() {
-  foodList.value = [];
-  isPlaying.value = true;
-  isShowTitle.value = false;
+getFoodList();
+async function getFoodList() {
   const sheetID = import.meta.env.VITE_SHEET_ID;
   const apiKey = import.meta.env.VITE_API_KEY;
   try {
@@ -41,7 +39,16 @@ async function start() {
   } catch (err) {
     console.log(err);
   }
+}
+
+function start() {
+  isPlaying.value = true;
+  isShowTitle.value = false;
   shuffleArray(foodList.value);
+}
+
+function restart() {
+  isPlaying.value = false;
 }
 
 function shuffleArray(array) {
@@ -49,10 +56,6 @@ function shuffleArray(array) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
-}
-
-function restart() {
-  isPlaying.value = false;
 }
 </script>
 

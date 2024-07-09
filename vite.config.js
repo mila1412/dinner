@@ -7,7 +7,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/dinner/',
+  base: '/dinner',
   plugins: [
     vue(),
     VitePWA({
@@ -51,7 +51,7 @@ export default defineConfig({
           }
         ],
         display: 'standalone',
-        start_url: '/'
+        start_url: '/dinner'
       },
       workbox: {
         runtimeCaching: [

@@ -66,6 +66,14 @@ function shuffleArray(array) {
 </script>
 
 <style lang="scss">
+body {
+  margin: 0;
+}
+
+#app {
+  height: 100vh;
+}
+
 .wrap {
   box-sizing: border-box;
   width: 200px;
@@ -74,12 +82,13 @@ function shuffleArray(array) {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgb(83, 22, 22);
-  border: 2px solid rgb(83, 22, 22);
+  background: #ecdcc2;
+  border: 1px solid #fff;
 }
 
 .title {
   color: #fff;
+  font-size: 18px;
 }
 
 .list {
@@ -97,7 +106,8 @@ function shuffleArray(array) {
   text-align: center;
   list-style: none;
   color: #fff;
-  font-size: 16px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .list__item--playing {
@@ -123,11 +133,11 @@ function shuffleArray(array) {
   button {
     flex: 0 1 33.3%;
     height: 50px;
-    color: rgb(83, 22, 22);
+    color: #fff;
     font-size: 16px;
     font-weight: bold;
-    background: rgb(255, 217, 0);
-    border: 2px solid rgb(83, 22, 22);
+    background: #ceb195;
+    border: 1px solid #fff;
     border-top: none;
     cursor: pointer;
     &:nth-child(2),
@@ -137,7 +147,7 @@ function shuffleArray(array) {
     }
 
     &:focus {
-      background: rgb(83, 22, 22);
+      background: #ceb195;
       color: #fff;
     }
   }
@@ -150,25 +160,22 @@ function shuffleArray(array) {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: rgb(83, 22, 22);
+  color: #fff;
   font-size: 20px;
   font-weight: bold;
-  background: rgb(255, 217, 0);
-  border: 2px solid rgb(83, 22, 22);
+  background: #ceb195;
+  border: 1px solid #fff;
   border-top: none;
 }
 
 @media (max-width: 767px) {
-  body {
-    height: 100vh;
-    margin: 0;
-  }
-  #app {
-    height: 100%;
-  }
   .wrap {
     width: 100%;
     height: 50%;
+  }
+
+  .title {
+    color: #fff;
   }
 
   .list {
@@ -179,7 +186,6 @@ function shuffleArray(array) {
   .list__item {
     height: 30px;
     line-height: 30px;
-    font-size: 26px;
   }
 
   .btn-wrap {
@@ -187,7 +193,6 @@ function shuffleArray(array) {
     height: 50%;
     button {
       height: 50%;
-      font-size: 20px;
     }
   }
 

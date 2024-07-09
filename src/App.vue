@@ -5,8 +5,8 @@
       <li
         v-for="(food, index) in filterList"
         :key="index"
-        class="item"
-        :class="{ playing: isPlaying }"
+        class="list__item list__item"
+        :class="{ 'list__item--playing': isPlaying }"
         @animationend="restart"
       >
         {{ food }}
@@ -66,10 +66,6 @@ function shuffleArray(array) {
 </script>
 
 <style lang="scss">
-.title {
-  color: #fff;
-}
-
 .wrap {
   box-sizing: border-box;
   width: 200px;
@@ -78,8 +74,12 @@ function shuffleArray(array) {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgb(139, 23, 23);
+  background: rgb(83, 22, 22);
   border: 2px solid rgb(83, 22, 22);
+}
+
+.title {
+  color: #fff;
 }
 
 .list {
@@ -90,16 +90,17 @@ function shuffleArray(array) {
   margin: 0;
 }
 
-.item {
+.list__item {
   position: relative;
   height: 30px;
   line-height: 30px;
   text-align: center;
   list-style: none;
   color: #fff;
+  font-size: 16px;
 }
 
-.playing {
+.list__item--playing {
   animation-name: random;
   animation-iteration-count: 2;
   animation-timing-function: linear;
@@ -125,7 +126,7 @@ function shuffleArray(array) {
     color: rgb(83, 22, 22);
     font-size: 16px;
     font-weight: bold;
-    background: rgb(226, 196, 27);
+    background: rgb(255, 217, 0);
     border: 2px solid rgb(83, 22, 22);
     border-top: none;
     cursor: pointer;
@@ -152,8 +153,47 @@ function shuffleArray(array) {
   color: rgb(83, 22, 22);
   font-size: 20px;
   font-weight: bold;
-  background: rgb(226, 196, 27);
+  background: rgb(255, 217, 0);
   border: 2px solid rgb(83, 22, 22);
   border-top: none;
+}
+
+@media (max-width: 767px) {
+  body {
+    height: 100vh;
+    margin: 0;
+  }
+  #app {
+    height: 100%;
+  }
+  .wrap {
+    width: 100%;
+    height: 50%;
+  }
+
+  .list {
+    width: 100%;
+    max-height: 30px;
+  }
+
+  .list__item {
+    height: 30px;
+    line-height: 30px;
+    font-size: 26px;
+  }
+
+  .btn-wrap {
+    width: 100%;
+    height: 50%;
+    button {
+      height: 50%;
+      font-size: 20px;
+    }
+  }
+
+  .choose {
+    width: 100%;
+    height: 50%;
+  }
 }
 </style>

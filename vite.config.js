@@ -50,7 +50,8 @@ export default defineConfig({
             purpose: 'maskable'
           }
         ],
-        display: 'standalone'
+        display: 'standalone',
+        start_url: '/'
       },
       workbox: {
         runtimeCaching: [

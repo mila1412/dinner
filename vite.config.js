@@ -22,9 +22,10 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png'],
       manifest: {
         name: 'Eat Dinner',
-        short_name: 'Eat Dinner!!',
+        short_name: 'Eat Dinner',
         description: 'Choose what to eat for dinner!!',
         theme_color: '#ffffff',
+        background_color: '#ffffff',
         icons: [
           {
             src: 'pwa-64x64.png',
@@ -48,7 +49,8 @@ export default defineConfig({
             type: 'image/png',
             purpose: 'maskable'
           }
-        ]
+        ],
+        display: 'standalone'
       },
       workbox: {
         runtimeCaching: [

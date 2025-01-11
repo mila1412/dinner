@@ -74,6 +74,12 @@ body {
   height: 100vh;
 }
 
+@supports (height: 100dvh) {
+  #app {
+    height: 100dvh;
+  }
+}
+
 .wrap {
   box-sizing: border-box;
   width: 200px;
